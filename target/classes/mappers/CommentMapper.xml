@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.dao.CommentMapper">
+  <resultMap id="BaseResultMap" type="com.qianfeng.pojo.Comment">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="u_id" jdbcType="INTEGER" property="uId" />
+    <result column="creationDate" jdbcType="TIMESTAMP" property="creationdate" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dis_comment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qianfeng.pojo.Comment">
+    insert into dis_comment (id, content, u_id,
+      creationDate)
+    values (#{id,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{uId,jdbcType=INTEGER},
+      #{creationdate,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.qianfeng.pojo.Comment">
+    update dis_comment
+    set content = #{content,jdbcType=VARCHAR},
+      u_id = #{uId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, content, u_id, creationDate
+    from dis_comment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, content, u_id, creationDate
+    from dis_comment
+  </select>
+  <select id="getCommentListByPage" resultMap="BaseResultMap">
+    select id, content, u_id, creationDate
+    from dis_comment
+    <where>
+      <if test="content!= null and content != ''" >
+        and content like '%${content}%'
+      </if>
+      <if test="uId!= null and uId != '0'.toString()" >
+        and u_id = #{uId,jdbcType=INTEGER}
+      </if>
+    </where>
+    limit #{page},#{limit}
+  </select>
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(*) from dis_comment
+        <where>
+            <if test="content!= null and content != ''" >
+                and content like '%${content}%'
+            </if>
+            <if test="uId!= null and uId != '0'.toString()" >
+                and u_id = #{uId,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteBatch">
+        delete from dis_comment where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

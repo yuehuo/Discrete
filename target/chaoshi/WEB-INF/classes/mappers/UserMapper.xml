@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.qianfeng.pojo.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="userCode" jdbcType="VARCHAR" property="usercode" />
+    <result column="userName" jdbcType="VARCHAR" property="username" />
+    <result column="userPassword" jdbcType="VARCHAR" property="userpassword" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="profile" jdbcType="VARCHAR" property="profile" />
+    <result column="userRole" jdbcType="INTEGER" property="userrole" />
+    <result column="creationDate" jdbcType="TIMESTAMP" property="creationdate" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dis_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qianfeng.pojo.User">
+    insert into dis_user (id, userCode, userName, 
+      userPassword, age, gender, 
+      birthday, phone, address, 
+      profile, userRole, creationDate
+      )
+    values (#{id,jdbcType=INTEGER}, #{usercode,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{userpassword,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{gender,jdbcType=INTEGER}, 
+      #{birthday,jdbcType=DATE}, #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{profile,jdbcType=VARCHAR}, #{userrole,jdbcType=INTEGER}, #{creationdate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.qianfeng.pojo.User">
+    update dis_user
+    set userCode = #{usercode,jdbcType=VARCHAR},
+      userName = #{username,jdbcType=VARCHAR},
+      userPassword = #{userpassword,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      gender = #{gender,jdbcType=INTEGER},
+      birthday = #{birthday,jdbcType=DATE},
+      phone = #{phone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      profile = #{profile,jdbcType=VARCHAR},
+      userRole = #{userrole,jdbcType=INTEGER},
+      creationDate = #{creationdate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, userCode, userName, userPassword, age, gender, birthday, phone, address, 
+    profile, userRole, creationDate
+    from dis_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUsercode" resultMap="BaseResultMap">
+    select id, userCode, userName, userPassword, age, gender, birthday, phone, address,
+           profile, userRole, creationDate
+    from dis_user
+    where usercode = #{usercode,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, userCode, userName, userPassword, age, gender, birthday, phone, address, 
+    profile, userRole, creationDate
+    from dis_user
+  </select>
+  <select id="getUserListByPage" resultMap="BaseResultMap">
+    select id, userCode, userName, userPassword, age, gender, birthday, phone, address,
+    profile, userRole, creationDate
+    from dis_user
+    <where>
+      <if test="usercode!= null and usercode != ''" >
+        and usercode like '%${usercode}%'
+      </if>
+      <if test="gender!= null and gender != ''" >
+        and gender like '%${gender}%'
+      </if>
+    </where>
+    limit #{page},#{limit}
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer">
+    select count(*) from dis_user
+    <where>
+      <if test="usercode!= null and usercode != ''" >
+        and usercode like '%${usercode}%'
+      </if>
+      <if test="gender!= null and gender != ''" >
+        and gender like '%${gender}%'
+      </if>
+    </where>
+  </select>
+  <delete id="deleteBatch">
+    delete from dis_user where id in
+    <foreach collection="ids" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </delete>
+</mapper>

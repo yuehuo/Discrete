@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.dao.DocumentMapper">
+  <resultMap id="BaseResultMap" type="com.qianfeng.pojo.Document">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="u_id" jdbcType="INTEGER" property="uId" />
+    <result column="creationDate" jdbcType="TIMESTAMP" property="creationdate" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dis_file
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qianfeng.pojo.Document">
+    insert into dis_file (id, name, path, 
+      u_id, creationDate)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
+      #{uId,jdbcType=INTEGER}, #{creationdate,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.qianfeng.pojo.Document">
+    update dis_file
+    set name = #{name,jdbcType=VARCHAR},
+      path = #{path,jdbcType=VARCHAR},
+      u_id = #{uId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, path, u_id, creationDate
+    from dis_file
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, name, path, u_id, creationDate
+    from dis_file
+  </select>
+  <select id="selectByUid" resultMap="BaseResultMap">
+    select id, name, path, u_id, creationDate
+    from dis_file
+    where uId = #{uId,jdbcType=INTEGER}
+  </select>
+<!--  <select id="selectByName" resultMap="BaseResultMap">-->
+<!--    select id, name, path, u_id, creationDate-->
+<!--    from dis_file-->
+<!--    where name = #{name,jdbcType=INTEGER}-->
+<!--  </select>-->
+  <select id="getDocumentListByPage" resultMap="BaseResultMap">
+    select id, name, path, u_id, creationDate
+    from dis_file
+    <where>
+      <if test="name!= null and name != ''" >
+        and name like '%${name}%'
+      </if>
+      <if test="uId!= null and uId != '0'.toString()" >
+        and u_id = #{uId,jdbcType=INTEGER}
+      </if>
+    </where>
+    limit #{page},#{limit}
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer">
+    select count(*) from dis_file
+    <where>
+      <if test="name!= null and name != ''" >
+        and name like '%${name}%'
+      </if>
+      <if test="uId!= null and uId != '0'.toString()" >
+        and u_id = #{uId,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  <select id="selectCountByUid" resultType="java.lang.Integer">
+    select count(*) from dis_file
+    <where>
+      <if test="uId!= null and uId != ''" >
+        and uId = #{uId,jdbcType=INTEGER}
+      </if>
+      <if test="name!= null and name != ''" >
+        and name like '%${name}%'
+      </if>
+    </where>
+  </select>
+  <delete id="deleteBatch">
+    delete from dis_file where id in
+    <foreach collection="ids" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </delete>
+</mapper>

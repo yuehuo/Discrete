@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.dao.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.qianfeng.pojo.Role">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="roleCode" jdbcType="VARCHAR" property="rolecode" />
+    <result column="roleName" jdbcType="VARCHAR" property="rolename" />
+    <result column="createdBy" jdbcType="BIGINT" property="createdby" />
+    <result column="creationDate" jdbcType="TIMESTAMP" property="creationdate" />
+    <result column="modifyBy" jdbcType="BIGINT" property="modifyby" />
+    <result column="modifyDate" jdbcType="TIMESTAMP" property="modifydate" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dis_role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qianfeng.pojo.Role">
+    insert into dis_role (id, roleCode, roleName, 
+      createdBy, creationDate, modifyBy, 
+      modifyDate)
+    values (#{id,jdbcType=INTEGER}, #{rolecode,jdbcType=VARCHAR}, #{rolename,jdbcType=VARCHAR}, 
+      #{createdby,jdbcType=BIGINT}, #{creationdate,jdbcType=TIMESTAMP}, #{modifyby,jdbcType=BIGINT}, 
+      #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.qianfeng.pojo.Role">
+    update dis_role
+    set roleCode = #{rolecode,jdbcType=VARCHAR},
+      roleName = #{rolename,jdbcType=VARCHAR},
+      createdBy = #{createdby,jdbcType=BIGINT},
+      creationDate = #{creationdate,jdbcType=TIMESTAMP},
+      modifyBy = #{modifyby,jdbcType=BIGINT},
+      modifyDate = #{modifydate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, roleCode, roleName, createdBy, creationDate, modifyBy, modifyDate
+    from dis_role
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, roleCode, roleName, createdBy, creationDate, modifyBy, modifyDate
+    from dis_role
+  </select>
+</mapper>

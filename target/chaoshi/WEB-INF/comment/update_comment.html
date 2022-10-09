@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{layui/css/layui.css}" media="all">
+</head>
+<body>
+    <form class="layui-form layui-form-pane" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">id</label>
+            <div class="layui-input-inline">
+                <input th:value="${comment.id}" type="text" name="id" readonly="readonly"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">评论内容</label>
+            <div class="layui-input-inline">
+                <!--name要跟实体类的属性一致-->
+                <input th:value="${comment.content}" type="text" name="content" lay-verify="required" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">uId</label>
+            <div class="layui-input-inline">
+                <input th:value="${comment.uId}" type="text" name="uId" readonly="readonly"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+<!--        <div class="layui-form-item">-->
+<!--            <label class="layui-form-label">创建时间</label>-->
+<!--            <div class="layui-input-inline">-->
+<!--                <input th:value="${#dates.format(comment.creationdate, 'yyyy-MM-dd HH:mm:ss')}" type="text" name="creationdate" lay-verify="required" readonly="readonly" autocomplete="off" class="layui-input">-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn" lay-submit="" lay-filter="comment_update">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</body>
+<!--先引入layui.js,再引入自己写的js-->
+<script th:src="@{layui/layui.js}"></script>
+<script th:src="@{js/comment.js}"></script>
+</html>

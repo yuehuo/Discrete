@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>系统登录 - 离散数学学习网站</title>
+    <link rel="stylesheet"  th:href="@{layui/css/layui.css}">
+</head>
+<body>
+    <div style="text-align: center;">
+        <form class="layui-form layui-form-pane" action="/discrete/loginuser" method="post" >
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">账号：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="username" autocomplete="off" placeholder="请输入账号" class="layui-input" required>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">密码</label>
+                    <div class="layui-input-inline">
+                        <input type="password" name="password" placeholder="请输入密码" autocomplete="off" class="layui-input" required>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">验证码</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="code" placeholder="请输入验证码" autocomplete="off" class="layui-input" required>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <img src="/discrete/code">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <div class="layui-input-block">
+                        <button type="submit" class="layui-btn" lay-submit="">登录</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form class="layui-form layui-form-pane" action="/discrete/register" method="post">
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="submit" class="layui-btn" lay-submit="">注册</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
